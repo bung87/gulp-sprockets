@@ -62,7 +62,7 @@ export default class Base extends Transformer {
   /**
    * @return {Array.<String>} Required paths.
    */
-  getRequires() {
+  getRequires(dirname) {
     let requires = [];
     let includes = [];
     let stubs = [];
@@ -71,7 +71,11 @@ export default class Base extends Transformer {
       this.getDirectives(comment).forEach((obj) => {
         switch (obj.directive) {
           case 'require':
-            requires.push(this.requireDirective(obj.path));
+            let path = obj.path;
+            if( obj.path.indexOf(".") === 0 ){
+              path = _path.resolve(dirname,obj.path)
+            }
+            requires.push(this.requireDirective(path));
             break;
           case 'require_tree':
             requires.push.apply(

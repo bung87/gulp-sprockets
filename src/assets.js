@@ -134,7 +134,8 @@ export class Assets {
     if (assetPaths && assetPaths.length) {
       res = _.unique(_.flatten(assetPaths.map((p) => {
         return extnames.map((extname) => {
-          return this._autoExtname(path.join(p, filePath), extname);
+          var thePath = filePath.indexOf("/") === 0 ? filePath : _path2.default.join(p, filePath);
+          return this._autoExtname(thePath, extname);
         });
       })))
       .find(function(p) {

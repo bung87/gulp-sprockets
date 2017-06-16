@@ -47,10 +47,9 @@ export class Js extends Base {
     if (path.extname(vFile.path) === '.coffee') {
       return this.builder.transform(vFile, options);
     }
-
     try {
       this.parser.parse(vFile.contents.toString());
-      const code = this.generateCode(this.getRequires(), options);
+      const code = this.generateCode(this.getRequires(path.dirname(vFile.path)), options);
       vFile.contents = new Buffer(code);
     } catch (err) {
       console.log("Error: " + vFile.path);
